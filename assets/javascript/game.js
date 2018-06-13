@@ -4,7 +4,6 @@ var currentWord = [];
 var currentDisplay = [];
 var wrongLettersGuessed = [];
 var lettersGuessed = [];
-var currentGuess = "";
 var index = 0;
 var placeholderPicture = "<img src='./assets/images/world-cup.jpg' alt='placeholder'>"
 
@@ -78,16 +77,20 @@ var hangmanGame = {
 		if (currentDisplay.indexOf("_") === -1) {
 			wins++;
 			// Notify the user they won
-			document.querySelector("#instructions").innerHTML = "You won! Click any key for the next word";
-			// Display the image of the word
+			document.querySelector("#instructions").innerHTML = "You won! Click any key to continue";
+			
+			// Display the image of the word and answer
 			document.querySelector("#image").innerHTML = "<img src=" + this.wordsToGuess[index].src + ">";
+			document.querySelector("#answer").innerHTML = "<h2>" + this.wordsToGuess[index].word + "</h2>";
 		}
 		// If the user ran out of guesses...
 		else if (guessesRemaining === 0) {
 			// Notify the user they lost
-			document.querySelector("#instructions").innerHTML = "You lost. Click any key for the next word";
-			// Display the image of the word
+			document.querySelector("#instructions").innerHTML = "You lost. Click any key to continue";
+			
+			// Display the image of the word and answer
 			document.querySelector("#image").innerHTML = "<img src=" + this.wordsToGuess[index].src + ">";
+			document.querySelector("#answer").innerHTML = "<h2>" + this.wordsToGuess[index].word + "</h2>";
 		}
 	},
 
@@ -101,7 +104,19 @@ var hangmanGame = {
 
 		startGame();
 
+		// Reset image to placeholder image and clear out answer
 		document.querySelector("#wins").innerHTML = wins;
+		document.querySelector("#answer").innerHTML = "";
+	},
+
+	endGame: function() {
+		document.querySelector("#game-container").innerHTML = 
+			"<h2>End of game. Thanks for playing</h2>" + 
+			"<h3>Wins: " + wins + "</h3>";
+
+		// Reset image to placeholder image and clear out answer
+		document.querySelector("#image").innerHTML = placeholderPicture;
+		document.querySelector("#answer").innerHTML = "";
 	}
 };
 
@@ -172,9 +187,7 @@ document.onkeyup = function(event) {
 		}
 		// If there are NO more words to guess, then end the game
 		else {
-			document.querySelector("#game-container").innerHTML = 
-			"<h2>End of game. Thanks for playing</h2>" + 
-			"<h3>Wins: " + wins + "</h3>";
+			hangmanGame.endGame();
 		}
 	}
 }
