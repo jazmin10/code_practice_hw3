@@ -64,6 +64,15 @@ var hangmanGame = {
 
 	displayWrongLettersGuessed: function() {
 		document.querySelector("#already-guessed").innerHTML = wrongLettersGuessed.join(" , ");
+	},
+
+	checkWinLoss: function() {
+		if (currentDisplay.indexOf("_") === -1) {
+			document.querySelector("#instructions").innerHTML = "You won! Click any key for the next word";
+		}
+		else if (guessesRemaining === 0) {
+			document.querySelector("#instructions").innerHTML = "You lost. Click any key for the next word";
+		}
 	}
 };
 
@@ -73,16 +82,6 @@ function startGame() {
 	hangmanGame.displayHangmanWord();
 	hangmanGame.displayGuessesRemaining();
 }
-
-function checkWinLoss() {
-	if (currentDisplay.indexOf("_") === -1) {
-		document.querySelector("#instructions").innerHTML = "You won! Click any key for the next word";
-	}
-	else if (guessesRemaining === 0) {
-		document.querySelector("#instructions").innerHTML = "You lost. Click any key for the next word";
-	}
-}
-
 
 document.onkeyup = function(event) {
 
@@ -131,7 +130,7 @@ document.onkeyup = function(event) {
 			}
 		}
 
-		checkWinLoss();
+		hangmanGame.checkWinLoss();
 	}
 	// If there are no guesses remaning, then move on to the next word
 	else {
