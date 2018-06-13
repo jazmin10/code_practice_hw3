@@ -1,7 +1,7 @@
 // ------ GLOBAL VARIABLES ------ 
 
 var wins = 0;
-var guessesRemaining = 5;
+var guessesRemaining = 0;
 var currentWord = [];
 var currentDisplay = [];
 var wrongLettersGuessed = [];
@@ -23,6 +23,11 @@ var hangmanGame = {
 		word: "SPAIN",
 		src: "./assets/images/spain.jpg"
 	}],
+
+	// Sets the number of guesses the user has to guess the word
+	setGuessesRemaining: function() {
+		guessesRemaining = this.wordsToGuess[index].word.length + 3;
+	},
 
 	// Sets the word that needs to be guessed to the currentWord variable
 	setCurrentWord: function() {
@@ -112,7 +117,6 @@ var hangmanGame = {
 		index++;
 
 		// Resets global variables
-		guessesRemaining = 5;
 		currentWord = [];
 		currentDisplay = [];
 		wrongLettersGuessed = [];
@@ -155,6 +159,9 @@ function startGame() {
 
 	// Setting the "hangman word"
 	hangmanGame.setCurrentDisplay();
+
+	// Setting the number of guesses
+	hangmanGame.setGuessesRemaining();
 
 	// Rendering the game
 	hangmanGame.displayHangmanWord();
