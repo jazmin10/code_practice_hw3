@@ -74,6 +74,14 @@ function startGame() {
 	hangmanGame.displayGuessesRemaining();
 }
 
+function checkWinLoss() {
+	if (currentDisplay.indexOf("_") === -1) {
+		document.querySelector("#instructions").innerHTML = "You won! Click any key for the next word";
+	}
+	else if (guessesRemaining === 0) {
+		document.querySelector("#instructions").innerHTML = "You lost. Click any key for the next word";
+	}
+}
 
 
 document.onkeyup = function(event) {
@@ -100,7 +108,6 @@ document.onkeyup = function(event) {
 				// Update guesses remaining
 				guessesRemaining--;
 				hangmanGame.displayGuessesRemaining();
-
 			}
 			// If the guess is correct...
 			else {
@@ -123,6 +130,8 @@ document.onkeyup = function(event) {
 				document.querySelector("#hangman-word").innerHTML = currentDisplay.join(" ");
 			}
 		}
+
+		checkWinLoss();
 	}
 	// If there are no guesses remaning, then move on to the next word
 	else {
