@@ -86,11 +86,26 @@ document.onkeyup = function(event) {
 		if (lettersGuessed.indexOf(userGuess) === -1) {
 			console.log(userGuess);
 			hangmanGame.setLettersGuessed(userGuess);
-			guessesRemaining--;
+
+			// If guess is wrong...
+			if (currentWord.indexOf(userGuess) === -1) {
+
+				// Add the letter to wrong letters guessed group
+				hangmanGame.setWrongLettersGuessed(userGuess);
+				
+				// Update wrong letters guessed
+				hangmanGame.displayWrongLettersGuessed();
+
+				// Update guesses remaining
+				guessesRemaining--;
+				hangmanGame.displayGuessesRemaining();
+
+			}
 		}
 	}
 	// If there are no guesses remaning, then move on to the next word
 	else {
+		// Check if win OR loss
 		guessesRemaining = 5;
 		console.log("next word");
 	}
