@@ -81,14 +81,18 @@ document.onkeyup = function(event) {
 	// If there are guesses remaining, then let's keep playing
 	if (guessesRemaining > 0) {
 		var userGuess = event.key.toUpperCase();
-		console.log(userGuess);
-		guessesRemaining--;
+		
+		// If the user picks a letter for the first time, then check their guess
+		if (lettersGuessed.indexOf(userGuess) === -1) {
+			console.log(userGuess);
+			hangmanGame.setLettersGuessed(userGuess);
+			guessesRemaining--;
+		}
 	}
 	// If there are no guesses remaning, then move on to the next word
 	else {
-		// next word
 		guessesRemaining = 5;
-		// console.log("next word");
+		console.log("next word");
 	}
 }
 
