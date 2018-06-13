@@ -78,7 +78,8 @@ function startGame() {
 
 document.onkeyup = function(event) {
 
-	// If there are guesses remaining, then let's keep playing
+	// If there are guesses remaining
+	// then let's keep playing
 	if (guessesRemaining > 0) {
 		var userGuess = event.key.toUpperCase();
 		
@@ -100,6 +101,26 @@ document.onkeyup = function(event) {
 				guessesRemaining--;
 				hangmanGame.displayGuessesRemaining();
 
+			}
+			// If the guess is correct...
+			else {
+				// Update the currentDisplay variable by...
+				
+				// Finding the first instance of the letter in the word
+				var userGuessIndex = currentWord.indexOf(userGuess);
+
+				// Continue looping through the currentWord array until you find ALL
+				// instances of the letter in the word	
+				while(userGuessIndex !== -1) {
+
+					// Set the hangman word to contain your new guess
+					currentDisplay[userGuessIndex] = userGuess;
+					// Start the letter search AFTER the last instance
+					userGuessIndex =  currentWord.indexOf(userGuess, userGuessIndex + 1);
+				}
+
+				// Display to the screen the new hangman word
+				document.querySelector("#hangman-word").innerHTML = currentDisplay.join(" ");
 			}
 		}
 	}
