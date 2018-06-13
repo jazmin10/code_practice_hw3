@@ -78,9 +78,9 @@ function startGame() {
 
 document.onkeyup = function(event) {
 
-	// If there are guesses remaining
+	// If there are guesses remaining AND the word has not been guessed
 	// then let's keep playing
-	if (guessesRemaining > 0) {
+	if (guessesRemaining > 0 && currentDisplay.indexOf("_") !== -1) {
 		var userGuess = event.key.toUpperCase();
 		
 		// If the user picks a letter for the first time, then check their guess
