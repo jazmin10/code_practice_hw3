@@ -1,3 +1,5 @@
+// ------ GLOBAL VARIABLES ------ 
+
 var wins = 0;
 var guessesRemaining = 5;
 var currentWord = [];
@@ -137,6 +139,8 @@ var hangmanGame = {
 	}
 };
 
+// ------ FUNCTIONS ------ 
+
 // Starts the game by...
 function startGame() {
 
@@ -224,6 +228,8 @@ function gameLogic(event) {
 		}
 	}
 }
+
+// ------ MAIN PROCESSES ------ 
 
 // When a key is pressed...
 document.onkeyup = gameLogic;
