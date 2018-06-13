@@ -6,11 +6,12 @@ var wrongLettersGuessed = [];
 var lettersGuessed = [];
 var currentGuess = "";
 var index = 0;
+var placeholderPicture = "<img src='./assets/images/world-cup.jpg' alt='placeholder'>"
 
 var hangmanGame = {
 	wordsToGuess: [{
-		word: "TEST",
-		src: "./assets/images/world-cup.jpg"
+		word: "GERMANY",
+		src: "./assets/images/germany.jpeg"
 	}, {
 		word: "BRAZIL",
 		src: "./assets/images/brazil.jpg"
@@ -69,14 +70,17 @@ var hangmanGame = {
 	checkWinLoss: function() {
 		if (currentDisplay.indexOf("_") === -1) {
 			document.querySelector("#instructions").innerHTML = "You won! Click any key for the next word";
+			document.querySelector("#image").innerHTML = "<img src=" + this.wordsToGuess[index].src + ">";
 		}
 		else if (guessesRemaining === 0) {
 			document.querySelector("#instructions").innerHTML = "You lost. Click any key for the next word";
+			document.querySelector("#image").innerHTML = "<img src=" + this.wordsToGuess[index].src + ">";
 		}
 	}
 };
 
 function startGame() {
+	document.querySelector("#image").innerHTML = placeholderPicture;
 	hangmanGame.setCurrentWord();
 	hangmanGame.setCurrentDisplay();
 	hangmanGame.displayHangmanWord();
