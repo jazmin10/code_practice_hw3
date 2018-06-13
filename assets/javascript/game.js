@@ -67,23 +67,31 @@ var hangmanGame = {
 	}
 };
 
+function startGame() {
+	hangmanGame.setCurrentWord();
+	hangmanGame.setCurrentDisplay();
+	hangmanGame.displayHangmanWord();
+	hangmanGame.displayGuessesRemaining();
+}
 
 
-// hangmanGame.setCurrentWord();
-// hangmanGame.setCurrentDisplay();
-// hangmanGame.displayHangmanWord();
-// hangmanGame.displayGuessesRemaining();
-// hangmanGame.displayWins();
 
-// hangmanGame.setWrongLettersGuessed("j");
-// hangmanGame.displayLettersGuessed();
-// hangmanGame.setWrongLettersGuessed("k");
-// hangmanGame.displayLettersGuessed();
+document.onkeyup = function(event) {
 
-// hangmanGame.setLettersGuessed("L");
-// console.log(lettersGuessed);
-// hangmanGame.setLettersGuessed("t");
-// console.log(lettersGuessed);
+	// If there are guesses remaining, then let's keep playing
+	if (guessesRemaining > 0) {
+		var userGuess = event.key.toUpperCase();
+		console.log(userGuess);
+		guessesRemaining--;
+	}
+	// If there are no guesses remaning, then move on to the next word
+	else {
+		// next word
+		guessesRemaining = 5;
+		// console.log("next word");
+	}
+}
 
+startGame();
 
 
