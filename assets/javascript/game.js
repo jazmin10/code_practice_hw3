@@ -140,71 +140,76 @@ var hangmanGame = {
 // Starts the game by...
 function startGame() {
 
-	// Renders the placeholder image
+	// Rendering the placeholder image
 	document.querySelector("#image").innerHTML = placeholderPicture;
 
-	// Renders instructions to the user
+	// Rendering instructions to the user
 	document.querySelector("#instructions").innerHTML = "Start guessing...";
 
-	// Sets the word to be guessed
+	// Setting the word to be guessed
 	hangmanGame.setCurrentWord();
 
-	// Sets the "hangman word"
+	// Setting the "hangman word"
 	hangmanGame.setCurrentDisplay();
 
-	// Renders the game
+	// Rendering the game
 	hangmanGame.displayHangmanWord();
 	hangmanGame.displayGuessesRemaining();
 	hangmanGame.displayWrongLettersGuessed();
 }
 
-document.onkeyup = function(event) {
-
+// Checks to see the next step in the game: continue guessing, ending the game,
+// and capturing the correct/incorrect guess of the user
+function gameLogic(event) {
 	// If there are guesses remaining AND the word has not been guessed
 	// then let's keep playing
 	if (guessesRemaining > 0 && currentDisplay.indexOf("_") !== -1) {
+
+		// user's guess
 		var userGuess = event.key.toUpperCase();
 		
 		// If the user picks a letter for the first time, then check their guess
 		if (lettersGuessed.indexOf(userGuess) === -1) {
-			// console.log(userGuess);
+			
+			// Add the guess to the list of letters guessed
 			hangmanGame.setLettersGuessed(userGuess);
 
 			// If guess is wrong...
 			if (currentWord.indexOf(userGuess) === -1) {
 
-				// Add the letter to wrong letters guessed group
+				// Add the letter to the list of wrong letters guessed
 				hangmanGame.setWrongLettersGuessed(userGuess);
 				
-				// Update wrong letters guessed
+				// Render an updated list of the wrong letters guessed
 				hangmanGame.displayWrongLettersGuessed();
 
-				// Update guesses remaining
+				// Update and display guesses remaining
 				guessesRemaining--;
 				hangmanGame.displayGuessesRemaining();
 			}
 			// If the guess is correct...
 			else {
-				// Update the currentDisplay variable by...
+				// Update the "hangman word" by...
 				
 				// Finding the first instance of the letter in the word
 				var userGuessIndex = currentWord.indexOf(userGuess);
 
-				// Continue looping through the currentWord array until you find ALL
-				// instances of the letter in the word	
+				// Continue searching for instances of the letter until there aren't any	
 				while(userGuessIndex !== -1) {
 
-					// Set the hangman word to contain your new guess
+					// Set the "hangman word" to contain your new guess
 					currentDisplay[userGuessIndex] = userGuess;
+
 					// Start the letter search AFTER the last instance
 					userGuessIndex =  currentWord.indexOf(userGuess, userGuessIndex + 1);
 				}
 
-				// Display to the screen the new hangman word
+				// Display to the screen the new "hangman word"
 				document.querySelector("#hangman-word").innerHTML = currentDisplay.join(" ");
 			}
 		}
 
+		// After making a guess, check if the user has won or lost
 		hangmanGame.checkWinLoss();
 	}
 	// Otherwise...
@@ -220,6 +225,10 @@ document.onkeyup = function(event) {
 	}
 }
 
+// When a key is pressed...
+document.onkeyup = gameLogic;
+
+// Render the beginning of the game when page is loaded
 startGame();
 
 
