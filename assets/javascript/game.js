@@ -15,6 +15,12 @@ var hangmanGame = {
 	}, {
 		word: "BRAZIL",
 		src: "./assets/images/brazil.jpg"
+	}, {
+		word: "ICELAND",
+		src: "./assets/images/iceland.jpg"
+	}, {
+		word: "SPAIN",
+		src: "./assets/images/spain.jpg"
 	}],
 
 	setCurrentWord: function() {
@@ -68,23 +74,45 @@ var hangmanGame = {
 	},
 
 	checkWinLoss: function() {
+		// If the user guesses the word...
 		if (currentDisplay.indexOf("_") === -1) {
+			wins++;
+			// Notify the user they won
 			document.querySelector("#instructions").innerHTML = "You won! Click any key for the next word";
+			// Display the image of the word
 			document.querySelector("#image").innerHTML = "<img src=" + this.wordsToGuess[index].src + ">";
 		}
+		// If the user ran out of guesses...
 		else if (guessesRemaining === 0) {
+			// Notify the user they lost
 			document.querySelector("#instructions").innerHTML = "You lost. Click any key for the next word";
+			// Display the image of the word
 			document.querySelector("#image").innerHTML = "<img src=" + this.wordsToGuess[index].src + ">";
 		}
+	},
+
+	nextRound: function() {
+		index++;
+		guessesRemaining = 5;
+		currentWord = [];
+		currentDisplay = [];
+		wrongLettersGuessed = [];
+		lettersGuessed = [];
+
+		startGame();
+
+		document.querySelector("#wins").innerHTML = wins;
 	}
 };
 
 function startGame() {
 	document.querySelector("#image").innerHTML = placeholderPicture;
+	document.querySelector("#instructions").innerHTML = "Start guessing...";
 	hangmanGame.setCurrentWord();
 	hangmanGame.setCurrentDisplay();
 	hangmanGame.displayHangmanWord();
 	hangmanGame.displayGuessesRemaining();
+	hangmanGame.displayWrongLettersGuessed();
 }
 
 document.onkeyup = function(event) {
@@ -96,7 +124,7 @@ document.onkeyup = function(event) {
 		
 		// If the user picks a letter for the first time, then check their guess
 		if (lettersGuessed.indexOf(userGuess) === -1) {
-			console.log(userGuess);
+			// console.log(userGuess);
 			hangmanGame.setLettersGuessed(userGuess);
 
 			// If guess is wrong...
@@ -136,11 +164,18 @@ document.onkeyup = function(event) {
 
 		hangmanGame.checkWinLoss();
 	}
-	// If there are no guesses remaning, then move on to the next word
+	// Otherwise...
 	else {
-		// Check if win OR loss
-		guessesRemaining = 5;
-		console.log("next word");
+		// If we still have words to guess, then move to the next word
+		if (index < hangmanGame.wordsToGuess.length -1) {
+			hangmanGame.nextRound();
+		}
+		// If there are NO more words to guess, then end the game
+		else {
+			document.querySelector("#game-container").innerHTML = 
+			"<h2>End of game. Thanks for playing</h2>" + 
+			"<h3>Wins: " + wins + "</h3>";
+		}
 	}
 }
 
