@@ -22,60 +22,69 @@ var hangmanGame = {
 		src: "./assets/images/spain.jpg"
 	}],
 
+	// Sets the word that needs to be guessed to the currentWord variable
 	setCurrentWord: function() {
-		// console.log(this.wordsToGuess[index].word);
 
+		//Grabs the next word...
 		var word = this.wordsToGuess[index].word;
 		
+		// ...and the word is split into an array
 		for (var i = 0; i < word.length; i++) {
 			currentWord.push(word.charAt(i));
 		}
-
-		// console.log(currentWord);
-
 	},
 
+	// Replaces letters for "_"
 	setCurrentDisplay: function() {
 
-		for (var j = 0; j < currentWord.length; j++) {
+		currentWord.forEach(function() {
 			currentDisplay.push("_");
-		}
-
-		// console.log(currentDisplay);
+		});
 	},
 
+	// Updates the array of wrong letters
 	setWrongLettersGuessed: function(wrongLetter) {
-		// console.log(wrongLetter);
+
 		wrongLettersGuessed.push(wrongLetter.toUpperCase());
-		// console.log(wrongLettersGuessed);
 	},
 
+	// Updates the list of letters already guessed
 	setLettersGuessed: function(letter) {
+
 		lettersGuessed.push(letter.toUpperCase());
 	},
 
+	// Displays the "hangman word"
 	displayHangmanWord: function() {
+
+		// Turns the hangmanWord into a string
 		var hangmanWord = currentDisplay.join(" ");
 
+		// Renders the "hangman word" to the screen
 		document.querySelector("#hangman-word").innerHTML = hangmanWord;
 	},
 
+	// Renders the number of guesses remaining
 	displayGuessesRemaining: function() {
 		document.querySelector("#guesses-remaining").innerHTML = guessesRemaining;
 	},
 
+	// Renders the number of wins
 	displayWins: function() {
 		document.querySelector("#wins").innerHTML = wins;
 	},
 
+	// Renders the list of wrong letters
 	displayWrongLettersGuessed: function() {
 		document.querySelector("#already-guessed").innerHTML = wrongLettersGuessed.join(" , ");
 	},
 
+	// Checks if the user has won or lost
 	checkWinLoss: function() {
-		// If the user guesses the word...
+		// If the user guessed the word, then they won...
 		if (currentDisplay.indexOf("_") === -1) {
 			wins++;
+
 			// Notify the user they won
 			document.querySelector("#instructions").innerHTML = "You won! Click any key to continue";
 			
@@ -85,6 +94,7 @@ var hangmanGame = {
 		}
 		// If the user ran out of guesses...
 		else if (guessesRemaining === 0) {
+
 			// Notify the user they lost
 			document.querySelector("#instructions").innerHTML = "You lost. Click any key to continue";
 			
@@ -94,8 +104,12 @@ var hangmanGame = {
 		}
 	},
 
+	// Advances the game to the next round
 	nextRound: function() {
+		// Increases the index by 1 in order to switch to the next word
 		index++;
+
+		// Resets global variables
 		guessesRemaining = 5;
 		currentWord = [];
 		currentDisplay = [];
@@ -104,27 +118,41 @@ var hangmanGame = {
 
 		startGame();
 
-		// Reset image to placeholder image and clear out answer
+		// Resets image to placeholder image and clear out answer
 		document.querySelector("#wins").innerHTML = wins;
 		document.querySelector("#answer").innerHTML = "";
 	},
 
+	// Ends the game
 	endGame: function() {
+
+		// Notifies the user the game ended and displays the number of wins
 		document.querySelector("#game-container").innerHTML = 
 			"<h2>End of game. Thanks for playing</h2>" + 
 			"<h3>Wins: " + wins + "</h3>";
 
-		// Reset image to placeholder image and clear out answer
+		// Resets image to placeholder image and clear out answer
 		document.querySelector("#image").innerHTML = placeholderPicture;
 		document.querySelector("#answer").innerHTML = "";
 	}
 };
 
+// Starts the game by...
 function startGame() {
+
+	// Renders the placeholder image
 	document.querySelector("#image").innerHTML = placeholderPicture;
+
+	// Renders instructions to the user
 	document.querySelector("#instructions").innerHTML = "Start guessing...";
+
+	// Sets the word to be guessed
 	hangmanGame.setCurrentWord();
+
+	// Sets the "hangman word"
 	hangmanGame.setCurrentDisplay();
+
+	// Renders the game
 	hangmanGame.displayHangmanWord();
 	hangmanGame.displayGuessesRemaining();
 	hangmanGame.displayWrongLettersGuessed();
